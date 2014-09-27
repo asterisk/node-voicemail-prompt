@@ -1,0 +1,33 @@
+{
+  "name": "voicemail-prompt",
+  "version": "0.1.0",
+  "description": "Prompt interface for voicemail",
+  "main": "lib/prompt.js",
+  "private": true,
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asterisk/node-voicemail-prompt"
+  },
+  "author": "Samuel Fortier-Galarneau",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/asterisk/node-voicemail-prompt/issues"
+  },
+  "homepage": "https://github.com/asterisk/node-voicemail-prompt",
+  "dependencies": {
+    "q": "^1.0.1",
+    "ari-client-wrapper": "^0.1.2",
+    "voicemail-config": "git://github.com/asterisk/node-voicemail-config",
+    "machina": "^0.4.0-1"
+  },
+  "devDependencies": {
+    "mocha": "^1.21.4",
+    "grunt": "^0.4.5",
+    "grunt-mocha-test": "^0.10.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "mockery": "^1.4.0"
+  }
+}
