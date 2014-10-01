@@ -89,14 +89,12 @@ var getMockClient = function() {
 /**
  * Returns a mock app config for testing.
  */
-var getMockAppConfig = function() {
+var getMockAriConfig = function() {
   var config = {
-    ari: {
-      url: '',
-      username: '',
-      password: '',
-      applicationName: ''
-    }
+    url: '',
+    username: '',
+    password: '',
+    applicationName: ''
   };
 
   return config;
@@ -118,9 +116,6 @@ describe('prompt', function() {
     };
     mockery.registerMock('ari-client-wrapper', clientMock);
 
-    var configMock = getMockAppConfig();
-    mockery.registerMock(path.resolve('./config.json'), configMock);
-
     done();
   });
 
@@ -133,7 +128,7 @@ describe('prompt', function() {
 
   it('should support playing a sequence of sounds', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js');
+    var promptHelper = require('../lib/prompt.js')(getMockAriConfig());
 
     var channel = getMockClient().getChannel();
     var sounds = [{
@@ -159,7 +154,7 @@ describe('prompt', function() {
 
   it('should support stopping a sequence of sounds', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js');
+    var promptHelper = require('../lib/prompt.js')(getMockAriConfig());
 
     var channel = getMockClient().getChannel();
     var sounds = [{
@@ -186,7 +181,7 @@ describe('prompt', function() {
 
   it('should handle channel hanging up', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js');
+    var promptHelper = require('../lib/prompt.js')(getMockAriConfig());
 
     var channel = getMockClient().getChannel();
     var sounds = [{

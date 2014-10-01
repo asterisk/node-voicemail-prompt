@@ -23,7 +23,13 @@ or add the following the your package.json file
 Create a prompt object from a sequence of sounds and a channel
 
 ```JavaScript
-var promptHelper = require('voicemail-prompt');
+var ariConfig = {
+  url: '',
+  username: '',
+  password: '',
+  applicationName: ''
+};
+var promptHelper = require('voicemail-prompt')(ariConfig);
 var sounds = [{
   sound: 'sound:hello-world',
   skipable: false, // can this stop be stopped during playback?
