@@ -1,6 +1,6 @@
 {
   "name": "voicemail-prompt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Prompt interface for voicemail",
   "main": "lib/prompt.js",
   "private": true,
