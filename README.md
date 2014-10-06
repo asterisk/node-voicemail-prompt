@@ -23,13 +23,10 @@ or add the following the your package.json file
 Create a prompt object from a sequence of sounds and a channel
 
 ```JavaScript
-var ariConfig = {
-  url: '',
-  username: '',
-  password: '',
-  applicationName: ''
-};
-var promptHelper = require('voicemail-prompt')(ariConfig);
+var config; // voicemail config instance
+var promptHelper = require('voicemail-prompt')({
+  config: config
+});
 var sounds = [{
   sound: 'sound:hello-world',
   skipable: false, // can this stop be stopped during playback?
@@ -39,6 +36,8 @@ var sounds = [{
 var prompt = promptHelper.create(sounds, channel);
 ```
 
+For more information on voicemail config, see [voicemail-config](http://github.com/asterisk/node-voicemail-config)
+
 Initiate playback of all sounds in sequence:
 
 ```JavaScript
@@ -47,8 +46,7 @@ prompt.play()
     // played will be true if all sounds completed
   })
   .catch(function(err) {
-  })
-  .done();
+  });
 ```
 
 Stop the prompt at any point in the sequence:

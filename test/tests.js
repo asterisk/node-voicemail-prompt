@@ -54,29 +54,23 @@ var getMockClient = function() {
       return this;
     };
 
-    // actually channel.play
-    this.play = function() {
+    // actually channel.play (will get denodeified)
+    this.play = function(opts, playback, cb) {
       var self = this;
-      var innerDeferred = Q.defer();
 
       setTimeout(function() {
-        innerDeferred.resolve();
+        cb(null);
         soundsPlayed += 1;
         self.emit('PlaybackFinished');
       }, asyncDelay);
-
-      return innerDeferred.promise;
     };
 
-    // actually playback.stop
-    this.stop = function() {
-      var innerDeferred = Q.defer();
+    // actually playback.stop (will get denodeified)
+    this.stop = function(cb) {
 
       setTimeout(function() {
-        innerDeferred.resolve();
+        cb(null);
       }, asyncDelay);
-
-      return innerDeferred.promise;
     };
   };
   util.inherits(Client, Emitter);
