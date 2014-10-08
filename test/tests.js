@@ -85,10 +85,10 @@ var getMockClient = function() {
  */
 var getMockConfig = function() {
   var ariConfig = {
-    url: '',
-    username: '',
-    password: '',
-    applicationName: ''
+    url: 'http://localhost:8088',
+    username: 'asterisk',
+    password: 'asterisk',
+    applicationName: 'test'
   };
 
   return {
@@ -107,9 +107,13 @@ describe('prompt', function() {
     mockery.enable(mockeryOpts);
 
     var clientMock = {
-      getClient: function(url, username, password, appName) {
+      getClient: function(config, appName) {
         var deferred = Q.defer();
-        deferred.resolve(getMockClient());
+
+        if (config.url && config.username &&
+            config.password && appName) {
+          deferred.resolve(getMockClient());
+        }
 
         return deferred.promise;
       }
