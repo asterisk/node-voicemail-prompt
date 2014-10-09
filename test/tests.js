@@ -22,8 +22,8 @@ var path = require('path');
 var Emitter = require('events').EventEmitter;
 
 var mockClient;
-// used to test how many sounds were played by prompt module
-var soundsPlayed = 0;
+// used to test how the sounds played by prompt module
+var soundsPlayed = [];
 // milliseconds to delay async ops for mock requests
 var asyncDelay = 100;
 var mockeryOpts = {
@@ -57,10 +57,10 @@ var getMockClient = function() {
     // actually channel.play (will get denodeified)
     this.play = function(opts, playback, cb) {
       var self = this;
+      soundsPlayed.push(opts.media);
 
       setTimeout(function() {
         cb(null);
-        soundsPlayed += 1;
         self.emit('PlaybackFinished');
       }, asyncDelay);
     };
@@ -125,7 +125,7 @@ describe('prompt', function() {
 
   afterEach(function(done) {
     mockery.disable();
-    soundsPlayed = 0;
+    soundsPlayed = [];
 
     done();
   });
@@ -149,7 +149,7 @@ describe('prompt', function() {
     prompts.play()
       .then(function(played) {
         assert(played);
-        assert(soundsPlayed === 2);
+        assert(soundsPlayed.length === 2);
 
         done();
       })
@@ -175,7 +175,7 @@ describe('prompt', function() {
     prompts.play()
       .then(function(played) {
         assert(!played);
-        assert(soundsPlayed < 2);
+        assert(soundsPlayed.length < 2);
 
         done();
       })
@@ -201,13 +201,39 @@ describe('prompt', function() {
 
     prompts.play()
       .catch(function(err) {
-        assert(soundsPlayed < 2);
+        assert(soundsPlayed.length < 2);
         assert(~err.toString().match(/Channel hungup\.$/));
 
         done();
       })
       .done();
     getMockClient().emit('StasisEnd', {});
+  });
+
+  it('should also passing in replacement values', function(done) {
+    var ari = require('ari-client-wrapper');
+    var promptHelper = require('../lib/prompt.js')({config: getMockConfig()});
+
+    var channel = getMockClient().getChannel();
+    var sounds = [{
+      sound: 'sound:{exten}',
+      skipable: false,
+      postSilence: 1
+    }];
+    var replacements = {
+      exten: '1234'
+    };
+    var prompts = promptHelper.create(sounds, channel, replacements);
+
+    prompts.play()
+      .then(function(played) {
+        assert(played);
+        assert(soundsPlayed.length === 1);
+        assert(soundsPlayed[0] === 'sound:1234');
+
+        done();
+      })
+      .done();
   });
 
 });

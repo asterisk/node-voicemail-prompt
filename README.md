@@ -59,6 +59,25 @@ Calling stop while the sequence of sounds is still playing will return false fro
 
 If the channel hangs up while the sequence of sounds is still playing, the promise returned by the play operation will return an error that can be caught with the catch method of the promise.
 
+It is also possible to pass a replacements object along to a prompt so to dynamically set the sounds that will be played by a prompt:
+
+```JavaScript
+var sounds = [{
+  sound: 'characters:{extension}',
+  skipable: false,
+  postSilence: 1
+}];
+var replacements = {
+  extension: '1234'
+};
+
+var prompt = promptHelper.create(sounds, channel, replacements);
+
+prompt.play()
+  .then(function() {...})
+  .catch(function(err) {...});
+```
+
 # Development
 
 After cloning the git repository, run the following to install the module and all dev dependencies:
