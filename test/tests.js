@@ -100,6 +100,24 @@ var getMockConfig = function() {
   };
 };
 
+/**
+ * Returns a mock logger for testing.
+ */
+var getMockLogger = function() {
+  return {
+    child: function() {
+      return {
+        trace: function() {},
+        debug: function() {},
+        info: function() {},
+        warn: function() {},
+        error: function() {},
+        fatal: function() {}
+      };
+    }
+  };
+};
+
 describe('prompt', function() {
 
   beforeEach(function(done) {
@@ -132,7 +150,10 @@ describe('prompt', function() {
 
   it('should support playing a sequence of sounds', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js')({config: getMockConfig()});
+    var promptHelper = require('../lib/prompt.js')({
+      config: getMockConfig(),
+      logger: getMockLogger()
+    });
 
     var channel = getMockClient().getChannel();
     var sounds = [{
@@ -158,7 +179,10 @@ describe('prompt', function() {
 
   it('should support stopping a sequence of sounds', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js')({config: getMockConfig()});
+    var promptHelper = require('../lib/prompt.js')({
+      config: getMockConfig(),
+      logger: getMockLogger()
+    });
 
     var channel = getMockClient().getChannel();
     var sounds = [{
@@ -185,7 +209,10 @@ describe('prompt', function() {
 
   it('should handle channel hanging up', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js')({config: getMockConfig()});
+    var promptHelper = require('../lib/prompt.js')({
+      config: getMockConfig(),
+      logger: getMockLogger()
+    });
 
     var channel = getMockClient().getChannel();
     var sounds = [{
@@ -212,7 +239,10 @@ describe('prompt', function() {
 
   it('should also passing in replacement values', function(done) {
     var ari = require('ari-client-wrapper');
-    var promptHelper = require('../lib/prompt.js')({config: getMockConfig()});
+    var promptHelper = require('../lib/prompt.js')({
+      config: getMockConfig(),
+      logger: getMockLogger()
+    });
 
     var channel = getMockClient().getChannel();
     var sounds = [{

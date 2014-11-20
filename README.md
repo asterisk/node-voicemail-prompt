@@ -25,7 +25,8 @@ Create a prompt object from a sequence of sounds and a channel
 ```JavaScript
 var config; // voicemail config instance
 var promptHelper = require('voicemail-prompt')({
-  config: config
+  config: config, //voicemail configuration
+  logger: logger // voicemail logging
 });
 var sounds = [{
   sound: 'sound:hello-world',
